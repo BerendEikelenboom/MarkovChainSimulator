@@ -1,3 +1,6 @@
-This is streamlit program that simulates discrete markov chains.
-Initialize by starting server as follows:
-'streamlit run DMC.py'
+This is streamlit program that simulates discrete markov chains in the browser.
+Initialize by starting streamlit webserver:
+
+```bash
+streamlit run DMC.py
+```
