@@ -3,7 +3,6 @@ import graphviz as graphviz
 import time
 import numpy as np
 import pandas as pd
-import plotly.express as px
 
 st.header("Markov Chain Simulator")
 
@@ -89,12 +88,6 @@ if nr_correct == states:
         )
         metrics_table = st.table(df)
 
-        # Create pie chart
-        # initial_values = df.loc['Visits']
-        # initial_values[0] = 1
-        # fig = px.pie(values=initial_values, names=df.columns)
-        # fig_show = st.plotly_chart(fig)
-
         # Create dynamics
         while dynamics_on:
             time.sleep(1/((speed/1.2)**2))
@@ -110,8 +103,6 @@ if nr_correct == states:
             df[f'state {new_red_node}'][1] = counter[0][new_red_node] / sum(counter[0]) * 100
             metrics_table.table(df)
 
-            # fig = px.pie(values=df.loc['Visits'], names=df.columns)
-            # fig_show.plotly_chart(fig)
 
 else:
     st.write("Wrong probabilities!")
