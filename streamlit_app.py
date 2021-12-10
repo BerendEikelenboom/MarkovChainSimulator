@@ -10,8 +10,21 @@ def DMC():
 
     # Upper columns
     up_col1, up_col2 = st.columns((1, 3))
+    # Write transition probability matrix
+    st.write("Transition probability matrix")
+    # Middle columns
+    col_list = st.columns((1, 1, 1, 1, 1, 5))
+    # Lower columns
+    low_col1, low_col2 = st.columns((2, 1))
+
     with up_col1:
-        states = st.number_input("Number of states", step=1, min_value=2, max_value=5, value=3)
+        if 'df' not in st.session_state:
+            placeholder = st.empty()
+            states = placeholder.number_input("Number of states", step=1, min_value=2, max_value=5, value=3)
+            st.session_state['states'] = states
+        if 'df' in st.session_state:
+            placeholder = False
+            states = st.session_state['states']
 
     counter = [np.zeros(states)]
     counter = [counter[0].astype(int)]
@@ -24,13 +37,6 @@ def DMC():
             if lower < random <= upper:
                 counter[0][i] += 1
                 return i
-
-
-    # Write transition probability matrix
-    st.write("Transition probability matrix")
-
-    # Middle columns
-    col_list = st.columns((1, 1, 1, 1, 1, 5))
 
     transition_matrix = np.zeros([states, states])
 
@@ -49,8 +55,6 @@ def DMC():
                 number = st.text_input("", key=f"{state * states + i + 1}", value=f'{value}')
                 transition_matrix[i, state] = number if number else 0
 
-    # Lower columns
-    low_col1, low_col2 = st.columns((2, 1))
 
     # Check correct probabilities
     nr_correct = 0
@@ -66,11 +70,20 @@ def DMC():
         # Create dynamics checkbox
         with low_col2:
             run = st.button("Simulate")
-            pause = st.button("Pause")
+            if run:
+                st.session_state['run'] = True
+                if placeholder:
+                    placeholder.empty()
+            st.button("Pause")
             reset = st.button("Reset")
+            if reset:
+                if 'run' in st.session_state and st.session_state['run'] is True:
+                    st.button("Full reset")
+                st.session_state['run'] = False
 
         if reset and 'df' in st.session_state:
             del st.session_state['df']
+            del st.session_state['node']
 
         with col_list[-1]:
             # Create graph viz
