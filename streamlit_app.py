@@ -14,8 +14,10 @@ def DMC():
     st.write("Transition probability matrix")
     # Middle columns
     col_list = st.columns((1, 1, 1, 1, 1, 5))
+    # Vertical spacing UI
+    vs = st.columns((1))
     # Lower columns
-    low_col1, low_col2 = st.columns((2, 1))
+    low_col1, low_col_int, low_col2, low_col_fin = st.columns((3, 2, 2, 3))
 
     with up_col1:
         if 'df' not in st.session_state:
@@ -55,6 +57,10 @@ def DMC():
                 number = st.text_input("", key=f"{state * states + i + 1}", value=f'{value}')
                 transition_matrix[i, state] = number if number else 0
 
+
+    with vs[0]:
+        for i in range(1):
+            st.markdown("***")
 
     # Check correct probabilities
     nr_correct = 0
@@ -142,8 +148,10 @@ def CMC():
     st.write("Transition rate matrix")
     # Middle columns
     col_list = st.columns((1, 1, 1, 1, 1, 5))
+    # Vertical spacing UI
+    vs = st.columns((1))
     # Lower columns
-    low_col1, low_col2 = st.columns((2, 1))
+    low_col1, low_col_int, low_col2, low_col_fin = st.columns((3, 2, 2, 3))
 
     with up_col1:
         if 'df' not in st.session_state:
@@ -208,6 +216,10 @@ def CMC():
                 transition_rate_matrix[i, state] = number if number else 0
 
     transition_matrix = get_probability_matrix(transition_rate_matrix)
+
+    with vs[0]:
+        for i in range(1):
+            st.markdown("***")
 
     # Check correct probabilities
     nr_correct = 0
